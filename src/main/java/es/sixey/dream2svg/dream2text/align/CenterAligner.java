@@ -13,7 +13,7 @@ public class CenterAligner implements Aligner {
 
     @Override
     public String align(List<String> line) {
-        var joinedLine = joinToString(line);
+        var joinedLine = LineUtil.joinToString(line);
         var minLength = joinedLine.length();
         if (minLength == 40) return joinedLine;
 
@@ -28,12 +28,6 @@ public class CenterAligner implements Aligner {
             }
         }
         return alignedLine;
-    }
-
-    private String joinToString(List<String> line) {
-        var joiner = new StringJoiner(" ");
-        line.forEach(joiner::add);
-        return joiner.toString();
     }
 
 }

@@ -35,7 +35,7 @@ public class Dream {
                     currentWord = words.removeFirst();
                     outputLine.add(currentWord);
                 }
-                if (!words.isEmpty()) {
+                if (LineUtil.combinedLength(outputLine) > 40) {
                     outputLine.remove(outputLine.size()-1);
                     words.addFirst(currentWord);
                 }
