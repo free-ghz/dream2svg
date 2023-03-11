@@ -1,15 +1,13 @@
 package es.sixey.dream2svg.dream;
 
-import javax.swing.text.Segment;
+import es.sixey.dream2svg.util.LineUtil;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Dream {
-    // private List<char[]> document = new ArrayList<>();
-
-    private List<DreamSegment> segments = new ArrayList<>();
+    private final List<DreamSegment> segments = new ArrayList<>();
 
     public Dream(String file) {
         var lines = file.split("\r?\n");
@@ -33,7 +31,7 @@ public class Dream {
             do {
                 var outputLine = new ArrayList<String>();
                 String currentWord = null;
-                while (combinedLength(outputLine) <= 40 && !words.isEmpty()) {
+                while (LineUtil.combinedLength(outputLine) <= 40 && !words.isEmpty()) {
                     currentWord = words.removeFirst();
                     outputLine.add(currentWord);
                 }
@@ -70,10 +68,8 @@ public class Dream {
         for (int i = 0; i < lines; i++) segment.getLines().add(new ArrayList<>());
     }
 
-    private int combinedLength(List<String> words) {
-        int length = words.size()-1; // min amount of whitespace needed
-        length += words.stream().mapToInt(String::length).sum();
-        return length;
+    public List<DreamSegment> getSegments() {
+        return segments;
     }
 
     @Override

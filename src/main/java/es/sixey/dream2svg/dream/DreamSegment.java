@@ -3,7 +3,7 @@ package es.sixey.dream2svg.dream;
 import java.util.ArrayList;
 import java.util.List;
 
-class DreamSegment {
+public class DreamSegment {
     private AlignStrategy alignStrategy;
     private CurtainType curtainType;
     private List<List<String>> lines;

@@ -1,6 +1,6 @@
 package es.sixey.dream2svg.dream;
 
-enum CurtainType {
+public enum CurtainType {
     RANDOM,
     GLOW,
     GLOW_REVERSE,
