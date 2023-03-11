@@ -18,7 +18,6 @@ public class BlockAligner implements Aligner {
 
         var difference = WIDTH-minLength+line.size()-1;
         var buckets = createBuckets(line);
-        System.err.println(buckets.size() + line.toString());
         var currentBucket = 0;
         while (buckets.stream().mapToInt(String::length).sum() < difference) {
             var bucket = currentBucket;

@@ -5,8 +5,9 @@ public enum CurtainType {
     GLOW,
     GLOW_REVERSE,
     ZIGZAG,
-    ZIGZAG_REVERSE,
     AUTOMATA,
+    STARS,
+    UNDEFINED,
     TEXT,
     NONE;
 
@@ -16,8 +17,9 @@ public enum CurtainType {
             case "glow" -> GLOW;
             case "reverseglow" -> GLOW_REVERSE;
             case "zigzag" -> ZIGZAG;
-            case "reversezigzag" -> ZIGZAG_REVERSE;
             case "automata" -> AUTOMATA;
+            case "stars" -> STARS;
+            case "undefined" -> UNDEFINED;
             case "none" -> NONE;
             default -> {
                 System.err.println("I don't understand AlignStrategy " + string);
