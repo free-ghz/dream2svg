@@ -14,4 +14,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>org.jfree.svg</artifactId>
+            <version>5.0.5</version>
+        </dependency>
+    </dependencies>
+
 </project>
