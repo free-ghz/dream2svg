@@ -61,9 +61,19 @@ public class DefaultAlphabet implements Alphabet {
                     new Path().addPoint(1, 0).addPoint(0.5, 0).addPoint(0, 0.5).addPoint(0.5, 1).addPoint(1, 1),
                     new Path().addPoint(0, 0.5).addPoint(1, 0.5)
             ));
+            case 'f' -> new Letter(List.of(
+                    new Path().addPoint(0.1, 1).addPoint(0.1, 0).addPoint(0.5, 0).addPoint(0, 0.55).addPoint(1, 0.45)
+            ));
+            case 'i' -> new Letter(List.of(
+                    new Path().addPoint(0.5, 0.2).addPoint(0.4, 0.1).addPoint(0.5, 0).addPoint(0.6, 0.1).addPoint(0.5, 0.2).addPoint(0.5, 1)
+            ));
             case 't' -> new Letter(List.of(
                     new Path().addPoint(0, 0).addPoint(1, 0),
                     new Path().addPoint(0.5, 0).addPoint(0.5, 1)
+            ));
+            case 'y' -> new Letter(List.of(
+                    new Path().addPoint(0, 0).addPoint(0.5, 0.5).addPoint(1, 0),
+                    new Path().addPoint(0.5, 0.5).addPoint(0.5, 1)
             ));
             case ' ' -> null;
             default -> unknown;
