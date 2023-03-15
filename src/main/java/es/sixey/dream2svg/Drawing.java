@@ -2,8 +2,7 @@ package es.sixey.dream2svg;
 
 import es.sixey.dream2svg.signs.Path;
 import es.sixey.dream2svg.signs.Text;
-import org.jfree.svg.SVGGraphics2D;
-import org.jfree.svg.SVGUnits;
+import org.jfree.svg.*;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -15,12 +14,12 @@ public class Drawing {
     private final double surfaceHeight;
 
     public Drawing() {
-        surface = new SVGGraphics2D(210, 297, SVGUnits.PX);
+        surface = new SVGGraphics2D(210, 297, SVGUnits.MM);
         this.surfaceWidth = surface.getWidth();
         this.surfaceHeight = surface.getHeight();
         System.out.println(surfaceWidth + " " + surfaceHeight);
         surface.setPaint(Color.BLACK);
-        surface.setStroke(new BasicStroke(0.5f));
+        surface.setStroke(new BasicStroke(0.6f));
     }
 
     public void drawText(Text text) {
@@ -54,6 +53,16 @@ public class Drawing {
     }
 
     public String getSvg() {
-        return surface.getSVGElement();
+        // return surface.getSVGElement();
+
+        var viewbox = new ViewBox(0, 0, 210, 297);
+
+        return surface.getSVGElement(
+                null,
+                true, // include dimensions,
+                viewbox, // viewbox
+                PreserveAspectRatio.XMAX_YMAX,
+                MeetOrSlice.MEET
+                );
     }
 }
