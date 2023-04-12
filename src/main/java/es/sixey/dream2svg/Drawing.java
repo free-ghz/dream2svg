@@ -23,6 +23,7 @@ public class Drawing {
     }
 
     public void drawText(Text text) {
+        surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, text.toString());
         double signWidth = surfaceWidth/62;
         double signHeight = surfaceHeight/text.getHeight();
         for (int x = 0; x < text.getWidth(); x++) {
@@ -35,6 +36,7 @@ public class Drawing {
                 }
             }
         }
+        surface.setRenderingHint(SVGHints.KEY_END_GROUP, text.toString());
     }
 
     private void drawPath(Path path, double xOffset, double yOffset) {
@@ -53,16 +55,13 @@ public class Drawing {
     }
 
     public String getSvg() {
-        // return surface.getSVGElement();
-
         var viewbox = new ViewBox(0, 0, 210, 297);
-
         return surface.getSVGElement(
                 null,
                 true, // include dimensions,
-                viewbox, // viewbox
+                viewbox,
                 PreserveAspectRatio.XMAX_YMAX,
                 MeetOrSlice.MEET
-                );
+        );
     }
 }
