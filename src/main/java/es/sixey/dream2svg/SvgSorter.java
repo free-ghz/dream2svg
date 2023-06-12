@@ -133,7 +133,6 @@ public class SvgSorter {
                     exitY = Double.parseDouble(points[points.length-1].substring(points[points.length-1].indexOf(',') + 1, points[points.length-1].length()-3));
                 }
             }
-            System.out.println("(" + entryX + ", " + entryY + ")-(" + exitX + ", " + exitY + ") :: <" + tag);
             return new Item(tag, entryX, entryY, exitX, exitY);
         }
 

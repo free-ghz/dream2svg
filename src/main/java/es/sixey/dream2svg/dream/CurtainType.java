@@ -21,10 +21,7 @@ public enum CurtainType {
             case "stars" -> STARS;
             case "undefined" -> UNDEFINED;
             case "none" -> NONE;
-            default -> {
-                System.err.println("I don't understand AlignStrategy " + string);
-                yield null;
-            }
+            default -> TEXT;
         };
     }
 }
