@@ -37,7 +37,7 @@ public class Main {
         var grime = new Text(asciiCave, new DefaultGrimesAlphabet());
 
         var drawing = new Drawing(WIDTH_MM, HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
-        drawing.drawText(letters);
+        drawing.drawText(letters, 0.8);
         drawing.drawText(grime);
         var outputPath = Path.of("output.svg");
         var output = drawing.getSvg();

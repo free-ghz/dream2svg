@@ -124,7 +124,7 @@ public class CosmogrammaAlphabet implements Alphabet {
             ));
             case 'p' -> new Letter(List.of(
                     new Path()
-                            .addPoint(0, 1).addPoint(0, 0).addPoint(0.7, 0).addPoint(0.9, 0.1).addPoint(1, 0.5)
+                            .addPoint(0, 1).addPoint(0, 0).addPoint(0.7, 0).addPoint(0.9, 0.1).addPoint(1, 0.25)
                             .addPoint(0.9, 0.4).addPoint(0.7, 0.5).addPoint(0, 0.5)
             ));
             case 'q' -> new Letter(List.of(

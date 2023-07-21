@@ -29,15 +29,19 @@ public class Drawing {
     }
 
     public void drawText(Text text) {
+        drawText(text, 1);
+    }
+    public void drawText(Text text, double sizeFactor) {
         surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, text.toString());
         double signWidth = surfaceWidth/widthLetters;
         double signHeight = surfaceHeight/heightLetters;
-        double borderOffset = signWidth * offsetLetters;
+        double sizeFactorOffset = (1 - sizeFactor) / 2;
+        double borderOffset = signWidth * (offsetLetters + sizeFactorOffset);
         for (int x = 0; x < text.getWidth(); x++) {
             for (int y = 0; y < text.getHeight(); y++) {
                 var letter = text.getGrid()[x][y];
                 if (letter == null) continue;
-                var paths = letter.getPaths(signWidth, signHeight);
+                var paths = letter.getPaths(signWidth * sizeFactor, signHeight * sizeFactor);
                 for (var path : paths) {
                     drawPath(path, borderOffset + (x * signWidth), borderOffset + (y * signHeight));
                 }
