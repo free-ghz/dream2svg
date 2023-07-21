@@ -3,6 +3,7 @@ package es.sixey.dream2svg;
 import es.sixey.dream2svg.dream.Dream;
 import es.sixey.dream2svg.dream2text.TextRenderer;
 import es.sixey.dream2svg.signs.Text;
+import es.sixey.dream2svg.signs.alphabets.CosmogrammaAlphabet;
 import es.sixey.dream2svg.signs.alphabets.DefaultGrimesAlphabet;
 import es.sixey.dream2svg.signs.alphabets.DefaultLettersAlphabet;
 
@@ -24,7 +25,7 @@ public class Main {
         final var PARAGRAPH_LETTERS = WIDTH_LETTERS - (2 * CURTAIN_LETTERS) - 2;
 
 
-        var cavePath = Path.of("book/shower.dream");
+        var cavePath = Path.of("book/another_egg.dream");
         var caveFile = Files.readString(cavePath);
         var cave = new Dream(caveFile.toLowerCase(), PARAGRAPH_LETTERS , false);
         System.out.println("survived creating dream");
@@ -32,13 +33,15 @@ public class Main {
         var asciiCave = renderer.render(cave, HEIGHT_LETTERS);
         System.out.println(asciiCave);
 
-        var letters = new Text(asciiCave, new DefaultLettersAlphabet());
+        var letters = new Text(asciiCave, new CosmogrammaAlphabet());
         var grime = new Text(asciiCave, new DefaultGrimesAlphabet());
 
         var drawing = new Drawing(WIDTH_MM, HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
         drawing.drawText(letters);
         drawing.drawText(grime);
         var outputPath = Path.of("output.svg");
-        Files.writeString(outputPath, SvgSorter.sort(drawing.getSvg()));
+        var output = drawing.getSvg();
+        // output = SvgSorter.sort(output);
+        Files.writeString(outputPath, output);
     }
 }
