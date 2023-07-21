@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockAligner implements Aligner {
-    private static final int WIDTH = 40;
+    private int WIDTH = 40;
+
+    public void setWidth(int width) {
+        WIDTH = width;
+    }
 
     @Override
     public String align(List<String> line) {
         var joinedLine = LineUtil.joinToString(line);
         var minLength = joinedLine.length();
-        if (minLength == 40) return joinedLine;
-        if (minLength == 0) return LineUtil.spaces(40);
+        if (minLength == WIDTH) return joinedLine;
+        if (minLength == 0) return LineUtil.spaces(WIDTH);
         if (line.size() == 1) return new CenterAligner().align(line);
 
         var difference = WIDTH-minLength+line.size()-1;

@@ -12,11 +12,17 @@ public class Drawing {
     private final SVGGraphics2D surface;
     private final double surfaceWidth;
     private final double surfaceHeight;
+    private final double widthLetters;
+    private final double heightLetters;
+    private final double offsetLetters;
 
-    public Drawing() {
-        surface = new SVGGraphics2D(210, 297, SVGUnits.MM);
+    public Drawing(int widthMm, int heightMm, int widthLetters, int heightLetters, double offsetLetters) {
+        surface = new SVGGraphics2D(widthMm, heightMm, SVGUnits.MM);
         this.surfaceWidth = surface.getWidth();
         this.surfaceHeight = surface.getHeight();
+        this.widthLetters = widthLetters;
+        this.heightLetters = heightLetters;
+        this.offsetLetters = offsetLetters;
         System.out.println(surfaceWidth + " " + surfaceHeight);
         surface.setPaint(Color.BLACK);
         surface.setStroke(new BasicStroke(0.6f));
@@ -24,15 +30,16 @@ public class Drawing {
 
     public void drawText(Text text) {
         surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, text.toString());
-        double signWidth = surfaceWidth/62;
-        double signHeight = surfaceHeight/text.getHeight();
+        double signWidth = surfaceWidth/widthLetters;
+        double signHeight = surfaceHeight/heightLetters;
+        double borderOffset = signWidth * offsetLetters;
         for (int x = 0; x < text.getWidth(); x++) {
             for (int y = 0; y < text.getHeight(); y++) {
                 var letter = text.getGrid()[x][y];
                 if (letter == null) continue;
                 var paths = letter.getPaths(signWidth, signHeight);
                 for (var path : paths) {
-                    drawPath(path, x * signWidth, y * signHeight);
+                    drawPath(path, borderOffset + (x * signWidth), borderOffset + (y * signHeight));
                 }
             }
         }
@@ -55,7 +62,7 @@ public class Drawing {
     }
 
     public String getSvg() {
-        var viewbox = new ViewBox(0, 0, 210, 297);
+        var viewbox = new ViewBox(0, 0, surfaceWidth, surfaceHeight);
         return surface.getSVGElement(
                 null,
                 true, // include dimensions,

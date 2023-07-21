@@ -8,20 +8,30 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 
 public class TextRenderer {
+    private final int curtainWidth;
+    private final int paragraphWidth;
 
-    public String render(Dream dream) {
+    public TextRenderer(int paragraphWidth, int curtainWidth) {
+        this.paragraphWidth = paragraphWidth;
+        this.curtainWidth = curtainWidth;
+    }
+
+    public String render(Dream dream, int maxHeight) {
         var document = new ArrayList<String>();
 
-        var aligner = AlignerFactory.alignerFor(dream.getSegments().get(0).getAlignStrategy());
-        var curtain = CurtainFactory.curtainFor(dream.getSegments().get(0).getCurtainType());
-        for (var segment : dream.getSegments()) {
-            if (segment.getAlignStrategy() != null) aligner = AlignerFactory.alignerFor(segment.getAlignStrategy());
-            if (segment.getCurtainType() != null) curtain = CurtainFactory.curtainFor(segment.getCurtainType());
+        var aligner = AlignerFactory.alignerFor(dream.getSegments().get(0).getAlignStrategy(), paragraphWidth);
+        var curtain = CurtainFactory.curtainFor(dream.getSegments().get(0).getCurtainType(), curtainWidth);
+        bleble: for (var segment : dream.getSegments()) {
+            if (segment.getAlignStrategy() != null) aligner = AlignerFactory.alignerFor(segment.getAlignStrategy(), paragraphWidth);
+            if (segment.getCurtainType() != null) curtain = CurtainFactory.curtainFor(segment.getCurtainType(), curtainWidth);
             for (var line : segment.getLines()) {
                 var lineText = aligner.align(line);
                 var curtains = curtain.getNext();
-                var total = curtains.left() + " " + lineText + " " + curtains.right();
+                var leftCurtain = curtains.left();
+                var rightCurtain = curtains.right();
+                var total = leftCurtain + " " + lineText + " " + rightCurtain;
                 document.add(total);
+                if (document.size() == maxHeight) break bleble;
             }
         }
 

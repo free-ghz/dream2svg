@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface Aligner {
     String align(List<String> line);
+    void setWidth(int width);
 }

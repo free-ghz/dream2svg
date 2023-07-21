@@ -5,6 +5,10 @@ import es.sixey.dream2svg.util.LineUtil;
 import java.util.List;
 
 public class AutoAligner implements Aligner {
+    public void setWidth(int width) {
+        inner.setWidth(width);
+        outer.setWidth(width);
+    }
 
     private final Aligner inner;
     private final Aligner outer;

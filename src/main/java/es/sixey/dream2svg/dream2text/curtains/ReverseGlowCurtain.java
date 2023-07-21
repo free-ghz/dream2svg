@@ -1,7 +1,11 @@
 package es.sixey.dream2svg.dream2text.curtains;
 
-public class ReverseGlowCurtain implements Curtain {
-    private Curtain glow = new GlowCurtain();
+public class ReverseGlowCurtain extends Curtain {
+    private Curtain glow = new GlowCurtain(width);
+
+    public ReverseGlowCurtain(int width) {
+        super(width);
+    }
 
     @Override
     public Seam getNext() {

@@ -1,9 +1,18 @@
 package es.sixey.dream2svg.dream2text.curtains;
 
-public class EmptyCurtain implements Curtain {
+import es.sixey.dream2svg.util.LineUtil;
+
+public class EmptyCurtain extends Curtain {
+
+    public EmptyCurtain(int width) {
+        super(width);
+    }
 
     @Override
     public Seam getNext() {
-        return new Seam("          ", "          ");
+        return new Seam(
+                LineUtil.spaces(width),
+                LineUtil.spaces(width)
+        );
     }
 }

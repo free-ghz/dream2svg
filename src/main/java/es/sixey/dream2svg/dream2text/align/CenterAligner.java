@@ -7,7 +7,11 @@ import java.util.Random;
 import java.util.StringJoiner;
 
 public class CenterAligner implements Aligner {
-    private static final int WIDTH = 40;
+    private int WIDTH = 40;
+
+    public void setWidth(int width) {
+        WIDTH = width;
+    }
 
     private final Random random = new Random();
 
@@ -15,7 +19,7 @@ public class CenterAligner implements Aligner {
     public String align(List<String> line) {
         var joinedLine = LineUtil.joinToString(line);
         var minLength = joinedLine.length();
-        if (minLength == 40) return joinedLine;
+        if (minLength == WIDTH) return joinedLine;
 
         var difference = WIDTH-minLength;
         var padding = LineUtil.spaces(difference/2);

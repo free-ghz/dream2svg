@@ -9,11 +9,11 @@ import java.util.List;
 public class Dream {
     private final List<DreamSegment> segments = new ArrayList<>();
 
-    public Dream(String file) {
+    public Dream(String file, int paragraphWidth, boolean shouldAddMargin) {
         var lines = file.split("\r?\n");
 
         var segment = new DreamSegment(AlignStrategy.AUTO, CurtainType.RANDOM);
-        addMargin(5, segment);
+        if (shouldAddMargin) addMargin(5, segment);
         for (var line: lines) {
             if (line.startsWith("^")) {
                 // handle commands
@@ -31,18 +31,24 @@ public class Dream {
             do {
                 var outputLine = new ArrayList<String>();
                 String currentWord = null;
-                while (LineUtil.combinedLength(outputLine) <= 40 && !words.isEmpty()) {
+                while (LineUtil.combinedLength(outputLine) <= paragraphWidth && !words.isEmpty()) {
                     currentWord = words.removeFirst();
+                    if (currentWord.length() > paragraphWidth) {
+                        var leader = currentWord.substring(0, paragraphWidth);
+                        var trailer = currentWord.substring(paragraphWidth);
+                        currentWord = leader;
+                        words.addFirst(trailer);
+                    }
                     outputLine.add(currentWord);
                 }
-                if (LineUtil.combinedLength(outputLine) > 40) {
+                if (LineUtil.combinedLength(outputLine) > paragraphWidth) {
                     outputLine.remove(outputLine.size()-1);
                     words.addFirst(currentWord);
                 }
                 segment.getLines().add(outputLine);
             } while (!words.isEmpty());
         }
-        addMargin(5, segment);
+        if (shouldAddMargin) addMargin(5, segment);
         segments.add(segment);
     }
 
