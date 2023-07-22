@@ -20,10 +20,10 @@ public class TextRenderer {
         var document = new ArrayList<String>();
 
         var aligner = AlignerFactory.alignerFor(dream.getSegments().get(0).getAlignStrategy(), paragraphWidth);
-        var curtain = CurtainFactory.curtainFor(dream.getSegments().get(0).getCurtainType(), curtainWidth);
+        var curtain = CurtainFactory.curtainFor(dream.getSegments().get(0).getCurtainType(), curtainWidth, paragraphWidth);
         bleble: for (var segment : dream.getSegments()) {
             if (segment.getAlignStrategy() != null) aligner = AlignerFactory.alignerFor(segment.getAlignStrategy(), paragraphWidth);
-            if (segment.getCurtainType() != null) curtain = CurtainFactory.curtainFor(segment.getCurtainType(), curtainWidth);
+            if (segment.getCurtainType() != null) curtain = CurtainFactory.curtainFor(segment.getCurtainType(), curtainWidth, paragraphWidth);
             for (var line : segment.getLines()) {
                 var lineText = aligner.align(line);
                 var curtains = curtain.getNext();
