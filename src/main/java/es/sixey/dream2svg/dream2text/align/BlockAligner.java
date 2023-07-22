@@ -7,9 +7,11 @@ import java.util.List;
 
 public class BlockAligner implements Aligner {
     private int WIDTH = 40;
+    private Aligner OVERFLOW_ALIGNER = new CenterAligner();
 
     public void setWidth(int width) {
         WIDTH = width;
+        OVERFLOW_ALIGNER.setWidth(width);
     }
 
     @Override
@@ -18,7 +20,7 @@ public class BlockAligner implements Aligner {
         var minLength = joinedLine.length();
         if (minLength == WIDTH) return joinedLine;
         if (minLength == 0) return LineUtil.spaces(WIDTH);
-        if (line.size() == 1) return new CenterAligner().align(line);
+        if (line.size() == 1) return OVERFLOW_ALIGNER.align(line);
 
         var difference = WIDTH-minLength+line.size()-1;
         var buckets = createBuckets(line);

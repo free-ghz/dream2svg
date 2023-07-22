@@ -40,6 +40,10 @@ public class CosmogrammaAlphabet implements Alphabet {
             case '\'' -> new Letter(List.of(
                     new Path().addPoint(0.5, 0).addPoint(0.5, 0.25)
             ));
+            case '"' -> new Letter(List.of(
+                    new Path().addPoint(0.25, 0).addPoint(0.2, 0.25),
+                    new Path().addPoint(0.75, 0).addPoint(0.7, 0.25)
+            ));
             case '(' -> new Letter(List.of(
                     new Path().addPoint(0.6, 0).addPoint(0.4, 0.4).addPoint(0.4, 0.6).addPoint(0.6, 1)
             ));
@@ -164,8 +168,8 @@ public class CosmogrammaAlphabet implements Alphabet {
                     new Path().addPoint(0, 1).addPoint(1, 0)
             ));
             case 'y' -> new Letter(List.of(
-                    new Path().addPoint(1, 0).addPoint(0.5, 0.7).addPoint(0.5, 1),
-                    new Path().addPoint(0.5, 0.7).addPoint(0, 0)
+                    new Path().addPoint(1, 0).addPoint(0.5, 0.6).addPoint(0.5, 1),
+                    new Path().addPoint(0.5, 0.6).addPoint(0, 0)
             ));
             case 'z' -> new Letter(List.of(
                     new Path().addPoint(0, 0).addPoint(1, 0).addPoint(0, 1).addPoint(1, 1)
