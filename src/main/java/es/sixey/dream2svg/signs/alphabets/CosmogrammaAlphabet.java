@@ -21,12 +21,13 @@ public class CosmogrammaAlphabet implements Alphabet {
                     new Path().addPoint(0.3, 0.8).addPoint(0.3, 0.9).addPoint(0.15, 1)
             ));
             case '!' -> new Letter(List.of(
-                    new Path().addPoint(0.5, 0.8).addPoint(0.4, 0.9).addPoint(0.5, 1).addPoint(0.6, 0.9).addPoint(0.5, 0.8),
-                    new Path().addPoint(0.5, 0.7).addPoint(0.5, 0)
+                    new Path().addPoint(0.45, 1).addPoint(0.55, 1),
+                    new Path().addPoint(0.5, 0.6).addPoint(0.5, 0)
             ));
             case '?' -> new Letter(List.of(
-                    new Path().addPoint(0.5, 0.8).addPoint(0.4, 0.9).addPoint(0.5, 1).addPoint(0.6, 0.9).addPoint(0.5, 0.8),
-                    new Path().addPoint(0.5, 0.7).addPoint(0.5, 0.6).addPoint(0.8, 0.5).addPoint(0.9, 0.2).addPoint(0.7, 0).addPoint(0.3, 0).addPoint(0.1, 0.2).addPoint(0.2, 0.5)
+                    new Path().addPoint(0.45, 1).addPoint(0.55, 1),
+                    new Path().addPoint(0, 0).addPoint(0.7, 0).addPoint(0.9, 0.1).addPoint(1, 0.25)
+                            .addPoint(0.9, 0.4).addPoint(0.7, 0.5).addPoint(0.5, 0.5).addPoint(0.5, 0.6)
             ));
             case '-' -> new Letter(List.of(
                     new Path().addPoint(0.25, 0.5).addPoint(0.75, 0.45)
@@ -49,6 +50,12 @@ public class CosmogrammaAlphabet implements Alphabet {
             ));
             case ')' -> new Letter(List.of(
                     new Path().addPoint(0.4, 0).addPoint(0.6, 0.4).addPoint(0.6, 0.6).addPoint(0.4, 1)
+            ));
+            case '[' -> new Letter(List.of(
+                    new Path().addPoint(0.6, 0.1).addPoint(0.4, 0.1).addPoint(0.4, 0.9).addPoint(0.6, 0.9)
+            ));
+            case ']' -> new Letter(List.of(
+                    new Path().addPoint(0.4, 0.1).addPoint(0.6, 0.1).addPoint(0.6, 0.9).addPoint(0.4, 0.9)
             ));
             case '~' -> new Letter(List.of(
                     new Path().addPoint(0.2, 0.6).addPoint(0.4, 0.4).addPoint(0.6, 0.6).addPoint(0.8, 0.4)
@@ -113,13 +120,13 @@ public class CosmogrammaAlphabet implements Alphabet {
             ));
             case 'm' -> new Letter(List.of(
                     new Path()
-                            .addPoint(0, 1).addPoint(0, 0).addPoint(0.1, 0).addPoint(0.5, 1)
-                            .addPoint(0.9, 0).addPoint(1, 0).addPoint(1, 1)
+                            .addPoint(0, 1).addPoint(0, 0).addPoint(0.2, 0).addPoint(0.5, 1)
+                            .addPoint(0.8, 0).addPoint(1, 0).addPoint(1, 1)
             ));
             case 'n' -> new Letter(List.of(
                     new Path()
-                            .addPoint(0, 1).addPoint(0, 0).addPoint(0.1, 0)
-                            .addPoint(0.9, 1).addPoint(1, 1).addPoint(1, 0)
+                            .addPoint(0, 1).addPoint(0, 0).addPoint(0.25, 0)
+                            .addPoint(0.75, 1).addPoint(1, 1).addPoint(1, 0)
             ));
             case 'o' -> new Letter(List.of(
                     new Path().addPoint(0, 0.5).addPoint(0.1, 0.9).addPoint(0.5, 1).addPoint(0.9, 0.9)
