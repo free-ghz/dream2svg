@@ -18,6 +18,10 @@ public class AutoAligner implements Aligner {
         this.inner = inner;
         this.outer = outer;
         this.threshold = threshold;
+        // hack, but whatever
+        if (outer instanceof BlockAligner outer2) {
+            outer2.setOverflowAligner(inner);
+        }
     }
 
     @Override
