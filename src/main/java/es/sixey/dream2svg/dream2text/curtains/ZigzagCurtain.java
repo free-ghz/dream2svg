@@ -17,7 +17,7 @@ public class ZigzagCurtain extends Curtain {
         super(width);
         var windowWidth = random.nextInt(width + MIN_WIDTH_ADD, width + MAX_WIDTH_ADD);
         var generationBias = random.nextInt(-2, 1);
-        for (var i = 0; i < windowWidth; i++) {
+        for (var i = windowWidth - 1; i >= 0 ; i--) {
             var digit = i;
             if (generationBias >= 1) digit = digit + generationBias;
             if (digit > 9) digit = 9;
@@ -45,10 +45,16 @@ public class ZigzagCurtain extends Curtain {
         var current = basePattern.substring(position, position + width);
         if (currentDirection) {
             position -= 1;
-            if (position <= 0) currentDirection = false;
+            if (position <= 0) {
+                position = 0;
+                currentDirection = false;
+            }
         } else {
             position += 1;
-            if (position >= maxPosition) currentDirection = true;
+            if (position >= maxPosition) {
+                position = maxPosition;
+                currentDirection = true;
+            }
         }
 
         var reversed = new StringBuilder(current).reverse().toString();
