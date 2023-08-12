@@ -44,8 +44,8 @@ public class Main {
         var asciiHeight = asciiCave.split("\n").length;
         System.out.println("\n" + asciiCave + "\n\n" + asciiHeight  + " rows, remain " + (HEIGHT_LETTERS - asciiHeight));
 
-        var letters = new Text(asciiCave, new CosmogrammaAlphabet());
-        var grime = new Text(asciiCave, new Grimes2Alphabet());
+        var letters = new Text(asciiCave, new CosmogrammaAlphabet(), "1-letters");
+        var grime = new Text(asciiCave, new Grimes2Alphabet(), "2-grime");
 
         var drawing = new Drawing(WIDTH_MM, HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
         drawing.drawText(letters, 0.8);

@@ -6,7 +6,12 @@ public class Text {
     private final Letter[][] grid;
     private final int width;
     private final int height;
+    private String name = null;
 
+    public Text(String text, Alphabet alphabet, String name) {
+        this(text, alphabet);
+        this.name = name;
+    }
     public Text(String text, Alphabet alphabet) {
         var lines = text.split("\n");
         int maxLen = 0;
@@ -36,5 +41,11 @@ public class Text {
 
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public String toString() {
+        if (name != null) return name;
+        return super.toString();
     }
 }
