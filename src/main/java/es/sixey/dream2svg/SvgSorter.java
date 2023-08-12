@@ -9,7 +9,7 @@ import java.util.List;
 public class SvgSorter {
 
     public static void main(String[] stroke) throws IOException {
-        var svg = Files.readString(Path.of("toSort.svg"));
+        var svg = Files.readString(Path.of("dw-singles.svg"));
         var outputPath = Path.of("sorted.svg");
         Files.writeString(outputPath, SvgSorter.sort(svg));
     }
@@ -48,7 +48,9 @@ public class SvgSorter {
                     var sorted = sort(current);
                     printDistance(sorted);
 
-                    var injectedTop = topGroup.substring(0, topGroup.length()-1) + " " + subGroupStyle + ">";
+                    var injectedTop = topGroup.substring(0, topGroup.length()-1);
+                    if (subGroupStyle != null) injectedTop += " " + subGroupStyle;
+                    injectedTop += ">";
                     collector.append("<").append(injectedTop);
                     for (var a : sorted) {
                         collector.append("<").append(a.tag);
