@@ -1,4 +1,4 @@
-package es.sixey.dream2svg;
+package es.sixey.dream2svg.util;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,7 +25,6 @@ public class SvgSorter {
         for (var tag : tags) {
             if (tag.startsWith("g")) {
                 if (topGroup == null) {
-                    System.out.println("TOP GROUP " + tag);
                     current = new ArrayList<>();
                     topGroup = tag;
                 } else {
@@ -44,9 +43,11 @@ public class SvgSorter {
                 if (inSubGroup) {
                     inSubGroup = false;
                 } else {
-                    printDistance(current);
+                    var unsortedDistance = getPassivePrintDistance(current);
                     var sorted = sort(current);
-                    printDistance(sorted);
+                    var sortedDistance = getPassivePrintDistance(sorted);
+                    var distanceDiff = unsortedDistance - sortedDistance;
+                    System.out.println("Sorting removed " + Math.round(distanceDiff) + " passine travel distance, shaved to " + Math.round((sortedDistance/unsortedDistance) * 100) + "% of original");
 
                     var injectedTop = topGroup.substring(0, topGroup.length()-1);
                     if (subGroupStyle != null) injectedTop += " " + subGroupStyle;
@@ -61,20 +62,18 @@ public class SvgSorter {
                 }
             } else if (tag.isBlank()) {
             } else {
-                System.err.println("WARN i dont know " + tag);
                 collector.append("<").append(tag);
             }
         }
-        System.out.println("Sorted " + ellipses + " ellipses.");
         return collector.toString();
     }
 
-    private static void printDistance(List<Item> list) {
+    private static double getPassivePrintDistance(List<Item> list) {
         var totalDistance = 0.0;
         for (var i = 0; i < list.size() - 1; i++) {
             totalDistance += list.get(i).distanceTo(list.get(i+1));
         }
-        System.out.println("Total passive travel distance: " + totalDistance);
+        return totalDistance;
     }
 
     private static List<Item> sort(List<Item> input) {
@@ -162,7 +161,6 @@ public class SvgSorter {
             var distanceX = Math.abs(this.exitX - o.entryX);
             var distanceY = Math.abs(this.exitY - o.entryY);
             return Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
-            // return distanceX + distanceY;
         }
     }
 }

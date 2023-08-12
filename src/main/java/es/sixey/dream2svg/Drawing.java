@@ -27,7 +27,6 @@ public class Drawing {
         this.widthLetters = widthLetters;
         this.heightLetters = heightLetters;
         this.offsetLetters = offsetLetters;
-        System.out.println(surfaceWidth + " " + surfaceHeight);
         surface.setPaint(Color.BLACK);
         surface.setStroke(new BasicStroke(0.6f));
     }
