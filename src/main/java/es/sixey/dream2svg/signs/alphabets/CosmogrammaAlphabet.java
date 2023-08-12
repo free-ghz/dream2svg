@@ -60,6 +60,12 @@ public class CosmogrammaAlphabet implements Alphabet {
             case '~' -> new Letter(List.of(
                     new Path().addPoint(0.2, 0.6).addPoint(0.4, 0.4).addPoint(0.6, 0.6).addPoint(0.8, 0.4)
             ));
+            case 'µ' -> new Letter(List.of(
+                    new Path()
+                            .addPoint(0, 1.2)
+                            .addPoint(0, 0.2).addPoint(0, 0.75).addPoint(0.1, 0.92).addPoint(0.5, 1)
+                            .addPoint(0.9, 0.92).addPoint(1, 0.75).addPoint(1, 0.2)
+            ));
             case ' ' -> new Letter(List.of());
 
 

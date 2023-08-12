@@ -2,6 +2,7 @@ package es.sixey.dream2svg;
 
 import es.sixey.dream2svg.signs.Path;
 import es.sixey.dream2svg.signs.Text;
+import es.sixey.dream2svg.util.Wave;
 import org.jfree.svg.*;
 
 import java.awt.*;
@@ -15,6 +16,9 @@ public class Drawing {
     private final double widthLetters;
     private final double heightLetters;
     private final double offsetLetters;
+
+    private final Wave offsetWave = new Wave();
+    private final Wave sizeWave = new Wave();
 
     public Drawing(int widthMm, int heightMm, int widthLetters, int heightLetters, double offsetLetters) {
         surface = new SVGGraphics2D(widthMm, heightMm, SVGUnits.MM);
@@ -39,13 +43,16 @@ public class Drawing {
         surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, text.toString());
         double signWidth = surfaceWidth/widthLetters;
         double signHeight = surfaceHeight/heightLetters;
-        double sizeFactorOffset = (1 - sizeFactor) / 2;
-        double borderOffset = signWidth * (offsetLetters + sizeFactorOffset);
         for (int x = 0; x < text.getWidth(); x++) {
             for (int y = 0; y < text.getHeight(); y++) {
+                double letterSizeFactor = sizeFactor;
+                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.6, 1.1);
+                double sizeFactorOffset = (1 - letterSizeFactor) / 2;
+                double borderOffset = signWidth * (offsetLetters + sizeFactorOffset);
+                borderOffset += signWidth * offsetWave.getWave(x, y, -0.3, 0.3);
                 var letter = text.getGrid()[x][y];
                 if (letter == null) continue;
-                var paths = letter.getPaths(signWidth * sizeFactor, signHeight * sizeFactor);
+                var paths = letter.getPaths(signWidth * letterSizeFactor, signHeight * letterSizeFactor);
                 for (var path : paths) {
                     drawPath(path, borderOffset + (x * signWidth), borderOffset + (y * signHeight));
                 }
