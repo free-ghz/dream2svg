@@ -28,6 +28,10 @@ public class Drawing {
         surface.setStroke(new BasicStroke(0.6f));
     }
 
+    public void setAccentPaint() {
+        surface.setPaint(Color.LIGHT_GRAY);
+    }
+
     public void drawText(Text text) {
         drawText(text, 1);
     }

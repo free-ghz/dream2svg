@@ -4,9 +4,7 @@ import es.sixey.dream2svg.dream.Dream;
 import es.sixey.dream2svg.dream2text.TextRenderer;
 import es.sixey.dream2svg.dream2text.curtains.AutomataCurtain;
 import es.sixey.dream2svg.signs.Text;
-import es.sixey.dream2svg.signs.alphabets.CosmogrammaAlphabet;
-import es.sixey.dream2svg.signs.alphabets.DefaultGrimesAlphabet;
-import es.sixey.dream2svg.signs.alphabets.DefaultLettersAlphabet;
+import es.sixey.dream2svg.signs.alphabets.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,25 +29,31 @@ public class Main {
         letterMmHeightCalculated = Math.round(letterMmHeightCalculated * 10)/10.0;
         System.out.println("letters roughly " + letterMmWidthCalculated + "x" + letterMmHeightCalculated);
 
-        var cavePath = Path.of("book/_back.dream");
+        var cavePath = Path.of("book/subtle.dream");
         var caveFile = Files.readString(cavePath);
         var caveText = caveFile.toLowerCase();
         // caveText = getAutomataPage(PARAGRAPH_LETTERS, HEIGHT_LETTERS);
         var cave = new Dream(caveText, PARAGRAPH_LETTERS , false);
         System.out.println("survived creating dream");
         var renderer = new TextRenderer(PARAGRAPH_LETTERS, CURTAIN_LETTERS);
+        var diagnosticAscii = renderer.render(cave, Integer.MAX_VALUE);
+        var diagnosticLength = diagnosticAscii.split("\n").length;
+        var a = ((double)diagnosticLength/(double)HEIGHT_LETTERS);
+        System.out.print("Total length presumed to be " + diagnosticLength + " lines. " + a + " pages yea");
         var asciiCave = renderer.render(cave, HEIGHT_LETTERS);
-        System.out.println(asciiCave);
+        var asciiHeight = asciiCave.split("\n").length;
+        System.out.println("\n" + asciiCave + "\n\n" + asciiHeight  + " rows, remain " + (HEIGHT_LETTERS - asciiHeight));
 
         var letters = new Text(asciiCave, new CosmogrammaAlphabet());
-        var grime = new Text(asciiCave, new DefaultGrimesAlphabet());
+        var grime = new Text(asciiCave, new Grimes2Alphabet());
 
         var drawing = new Drawing(WIDTH_MM, HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
         drawing.drawText(letters, 0.8);
+        drawing.setAccentPaint();
         drawing.drawText(grime);
         var outputPath = Path.of("output.svg");
         var output = drawing.getSvg();
-        // output = SvgSorter.sort(output);
+        output = SvgSorter.sort(output);
         Files.writeString(outputPath, output);
     }
 
