@@ -40,16 +40,24 @@ public class Main {
         var numberOfPages = ((double)diagnosticLength/(double) TEXT_ROWS_PER_PAGE);
         System.out.println("Total length presumed to be " + diagnosticLength + " lines. " + numberOfPages + " pages yea");
 
-        var drawing = new Drawing(PAPER_WIDTH_MM, PAPER_HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
+        var drawing = new Drawing(PAPER_WIDTH_MM, PAPER_HEIGHT_MM, WIDTH_LETTERS_BORDER * 4, HEIGHT_LETTERS_BORDER * 2, OUTER_BORDER_LETTERS);
+
+        var dimensions = getDimensions();
         for (int i = 0; i < 8; i++) {
+            drawing.rerollWaves();
             System.out.println("°°> Page " + (i + 1));
+            var dimension = dimensions[i];
+            var xOffset = dimension.x * PAGE_WIDTH_MM;
+            var yOffset = dimension.y * PAGE_HEIGHT_MM;
+            var flip = dimension.flip;
+
             var letters = new Text(renderedDream, new CosmogrammaAlphabet(), "" + i + "-1 letters " + location);
             drawing.setDefaultPaint();
-            drawing.drawText(letters, 0.8);
+            drawing.drawText(letters, xOffset, yOffset, flip, 0.8);
 
             var grime = new Text(renderedDream, new Grimes2Alphabet(), "" + i + "-2 grime " + location);
             drawing.setAccentPaint();
-            drawing.drawText(grime);
+            drawing.drawText(grime, xOffset, yOffset, flip);
 
             try {
                 renderedDream = letters.getRemainingText();
@@ -86,5 +94,22 @@ public class Main {
             page += automata.getNext().left() + "\n";
         }
         return page;
+    }
+
+    private record Dimension(int x, int y, boolean flip){}
+
+    private static Dimension[] getDimensions() {
+        int[][] paperDimensions = {{5, 4, 3, 2},
+                {6, 7, 0, 1}};
+        Dimension[] pages = new Dimension[8];
+        for (int o = 0; o < paperDimensions.length; o++) {
+            for (int i = 0; i < paperDimensions[o].length; i++) {
+                var page = paperDimensions[o][i];
+                var flip = o == 0;
+                var dim = new Dimension(i, o, flip);
+                pages[page] = dim;
+            }
+        }
+        return pages;
     }
 }

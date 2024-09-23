@@ -50,25 +50,32 @@ public class Drawing {
         return id;
     }
 
-    public void drawText(Text text) {
-        drawText(text, 1);
+    public void drawText(Text text, int externalXOffset, int externalYOffset, boolean flip) {
+        drawText(text, externalXOffset, externalYOffset, flip, 1);
     }
-    public void drawText(Text text, double sizeFactor) {
+    public void drawText(Text text, int externalXOffset, int externalYOffset, boolean flip, double sizeFactor) {
         surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, getGroupIdWithInkscapeLayer(text.toString()));
         double signWidth = surfaceWidth/widthLetters;
         double signHeight = surfaceHeight/heightLetters;
         for (int x = 0; x < text.getWidth(); x++) {
             for (int y = 0; y < text.getHeight(); y++) {
                 double letterSizeFactor = sizeFactor;
-                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.3, 1.4);
+                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.7, 1.05);
                 double sizeFactorOffset = (1 - letterSizeFactor) / 2;
                 double borderOffset = signWidth * (offsetLetters + sizeFactorOffset);
-                borderOffset += signWidth * offsetWave.getWave(x, y, -0.3, 0.3);
+                borderOffset += signWidth * offsetWave.getWave(x, y, -0.15, 0.15);
                 var letter = text.getGrid()[x][y];
                 if (letter == null) continue;
                 var paths = letter.getPaths(signWidth * letterSizeFactor, signHeight * letterSizeFactor);
                 for (var path : paths) {
-                    drawPath(path, borderOffset + (x * signWidth), borderOffset + (y * signHeight));
+                    double finalXOffset = externalXOffset + borderOffset + (x * signWidth);
+                    double finalYOffset = externalYOffset + borderOffset + (y * signHeight);
+                    if (flip) {
+                        path = path.size(1, 1, -1, -1);
+                        finalXOffset += signWidth;
+                        finalYOffset += signHeight;
+                    }
+                    drawPath(path, finalXOffset, finalYOffset);
                 }
             }
         }
