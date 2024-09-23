@@ -31,6 +31,9 @@ public class Drawing {
         surface.setStroke(new BasicStroke(0.6f));
     }
 
+    public void setDefaultPaint() {
+        surface.setPaint(Color.BLACK);
+    }
     public void setAccentPaint() {
         surface.setPaint(Color.LIGHT_GRAY);
     }

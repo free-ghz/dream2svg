@@ -25,22 +25,11 @@ public class Main {
 
         final var PARAGRAPH_LETTERS = WIDTH_LETTERS - (2 * CURTAIN_LETTERS) - 2;
 
-        var letterMmWidthCalculated = (double)WIDTH_MM/(double)WIDTH_LETTERS;
-        var letterMmHeightCalculated = (double)HEIGHT_MM/(double)HEIGHT_LETTERS;
-        letterMmWidthCalculated = Math.round(letterMmWidthCalculated * 10)/10.0;
-        letterMmHeightCalculated = Math.round(letterMmHeightCalculated * 10)/10.0;
-        System.out.println("letters roughly " + letterMmWidthCalculated + "x" + letterMmHeightCalculated);
-
-        String location = "book/subtle.dream";
+        String location = "book/engine.dream";
         var text = loadFile(location);
         var dream = new Dream(text, PARAGRAPH_LETTERS , false);
         var renderer = new TextRenderer(PARAGRAPH_LETTERS, CURTAIN_LETTERS);
-        var renderedDream = renderer.render(dream, HEIGHT_LETTERS);
-
-        /*var otherText = getAutomataPage(PARAGRAPH_LETTERS, HEIGHT_LETTERS);
-        var otherDream = new Dream(otherText, PARAGRAPH_LETTERS , false);
-        var otherRenderedDream = renderer.render(otherDream, HEIGHT_LETTERS);
-        renderedDream = new Fade().fadeBetween(renderedDream, otherRenderedDream);*/
+        var renderedDream = renderer.render(dream, Integer.MAX_VALUE);
 
         var asciiHeight = renderedDream.split("\n").length;
         System.out.println("\n" + renderedDream + "\n\n" + asciiHeight  + " rows, remain " + (HEIGHT_LETTERS - asciiHeight));
@@ -50,11 +39,26 @@ public class Main {
         System.out.println("Total length presumed to be " + diagnosticLength + " lines. " + numberOfPages + " pages yea");
 
         var drawing = new Drawing(WIDTH_MM, HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
-        var letters = new Text(renderedDream, new CosmogrammaAlphabet(), "1 letters " + location);
-        var grime = new Text(renderedDream, new Grimes2Alphabet(), "2 grime " + location);
-        drawing.drawText(letters, 0.8);
-        drawing.setAccentPaint();
-        drawing.drawText(grime);
+        for (int i = 0; i < 8; i++) {
+            System.out.println("°°> Page " + (i + 1));
+            var letters = new Text(renderedDream, new CosmogrammaAlphabet(), "" + i + "-1 letters " + location);
+            drawing.setDefaultPaint();
+            drawing.drawText(letters, 0.8);
+
+            var grime = new Text(renderedDream, new Grimes2Alphabet(), "" + i + "-2 grime " + location);
+            drawing.setAccentPaint();
+            drawing.drawText(grime);
+
+            try {
+                renderedDream = letters.getRemainingText();
+                if (renderedDream == null || renderedDream.length() == 0) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.err.println("Whelp, couldn't proceed to next page.");
+                break;
+            }
+        }
 
         var outputPath = Path.of("output/output.svg");
         var output = drawing.getSvg();
