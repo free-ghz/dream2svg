@@ -17,8 +17,8 @@ public class Drawing {
     private final double heightLetters;
     private final double offsetLetters;
 
-    private final Wave offsetWave = new Wave();
-    private final Wave sizeWave = new Wave();
+    private Wave offsetWave = new Wave();
+    private Wave sizeWave = new Wave();
 
     public Drawing(int widthMm, int heightMm, int widthLetters, int heightLetters, double offsetLetters) {
         surface = new SVGGraphics2D(widthMm, heightMm, SVGUnits.MM);
@@ -34,18 +34,30 @@ public class Drawing {
     public void setAccentPaint() {
         surface.setPaint(Color.LIGHT_GRAY);
     }
+    public void rerollWaves() {
+        offsetWave = new Wave();
+        sizeWave = new Wave();
+    }
+
+    /* we are being naughty and doing an injection, kinda.
+     * i should probably add the inkscape namespace too but fuck it */
+    private String getGroupIdWithInkscapeLayer(String groupName) {
+        String id = groupName + "' ";
+        id += "inkscape:groupmode='layer' inkscape:label='" + groupName;
+        return id;
+    }
 
     public void drawText(Text text) {
         drawText(text, 1);
     }
     public void drawText(Text text, double sizeFactor) {
-        surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, text.toString());
+        surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, getGroupIdWithInkscapeLayer(text.toString()));
         double signWidth = surfaceWidth/widthLetters;
         double signHeight = surfaceHeight/heightLetters;
         for (int x = 0; x < text.getWidth(); x++) {
             for (int y = 0; y < text.getHeight(); y++) {
                 double letterSizeFactor = sizeFactor;
-                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.6, 1.1);
+                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.3, 1.4);
                 double sizeFactorOffset = (1 - letterSizeFactor) / 2;
                 double borderOffset = signWidth * (offsetLetters + sizeFactorOffset);
                 borderOffset += signWidth * offsetWave.getWave(x, y, -0.3, 0.3);

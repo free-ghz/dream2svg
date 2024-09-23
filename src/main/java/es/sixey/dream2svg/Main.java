@@ -31,15 +31,16 @@ public class Main {
         letterMmHeightCalculated = Math.round(letterMmHeightCalculated * 10)/10.0;
         System.out.println("letters roughly " + letterMmWidthCalculated + "x" + letterMmHeightCalculated);
 
-        var text = loadFile("book/selatenine.dream");
+        String location = "book/subtle.dream";
+        var text = loadFile(location);
         var dream = new Dream(text, PARAGRAPH_LETTERS , false);
         var renderer = new TextRenderer(PARAGRAPH_LETTERS, CURTAIN_LETTERS);
         var renderedDream = renderer.render(dream, HEIGHT_LETTERS);
 
-        var otherText = getAutomataPage(PARAGRAPH_LETTERS, HEIGHT_LETTERS);
+        /*var otherText = getAutomataPage(PARAGRAPH_LETTERS, HEIGHT_LETTERS);
         var otherDream = new Dream(otherText, PARAGRAPH_LETTERS , false);
         var otherRenderedDream = renderer.render(otherDream, HEIGHT_LETTERS);
-        renderedDream = new Fade().fadeBetween(renderedDream, otherRenderedDream);
+        renderedDream = new Fade().fadeBetween(renderedDream, otherRenderedDream);*/
 
         var asciiHeight = renderedDream.split("\n").length;
         System.out.println("\n" + renderedDream + "\n\n" + asciiHeight  + " rows, remain " + (HEIGHT_LETTERS - asciiHeight));
@@ -49,15 +50,19 @@ public class Main {
         System.out.println("Total length presumed to be " + diagnosticLength + " lines. " + numberOfPages + " pages yea");
 
         var drawing = new Drawing(WIDTH_MM, HEIGHT_MM, WIDTH_LETTERS_BORDER, HEIGHT_LETTERS_BORDER, OUTER_BORDER_LETTERS);
-        var letters = new Text(renderedDream, new CosmogrammaAlphabet(), "1-letters");
-        var grime = new Text(renderedDream, new Grimes2Alphabet(), "2-grime");
+        var letters = new Text(renderedDream, new CosmogrammaAlphabet(), "1 letters " + location);
+        var grime = new Text(renderedDream, new Grimes2Alphabet(), "2 grime " + location);
         drawing.drawText(letters, 0.8);
         drawing.setAccentPaint();
         drawing.drawText(grime);
 
-        var outputPath = Path.of("output.svg");
+        var outputPath = Path.of("output/output.svg");
         var output = drawing.getSvg();
         output = SvgSorter.sort(output);
+
+        // this is getting out of hand
+        output = output.substring(0, 4) + " xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'" + output.substring(4);
+
         Files.writeString(outputPath, output);
     }
 
@@ -69,7 +74,7 @@ public class Main {
 
     private static String getAutomataPage(int width, int height) {
         var automata = new AutomataCurtain(width, 0);
-        automata.setOutputCharacters(new String[]{" ", "4"});
+        automata.setOutputCharacters(new String[]{" ", "6"});
         String page = "^ curtains ^ automata ^\n^ align ^ none ^\n";
         for (var i = 0; i < height; i++) {
             page += automata.getNext().left() + "\n";

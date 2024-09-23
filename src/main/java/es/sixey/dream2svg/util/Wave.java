@@ -17,8 +17,8 @@ public class Wave {
 
     public Wave() {
         var random = new Random();
-        wavePeriodX = random.nextDouble(8, 40);
-        wavePeriodY = random.nextDouble(8, 60);
+        wavePeriodX = random.nextDouble(8, 20);
+        wavePeriodY = random.nextDouble(40, 60);
         waveOffsetX = random.nextDouble(wavePeriodX);
         waveOffsetY = random.nextDouble(wavePeriodY);
         System.out.println(this);
