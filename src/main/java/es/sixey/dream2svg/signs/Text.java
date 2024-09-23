@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
+import static es.sixey.dream2svg.Main.TEXT_ROWS_PER_PAGE;
+
 public class Text {
     private final Letter[][] grid;
     private final int width;
@@ -25,7 +27,7 @@ public class Text {
             maxLen = Math.max(maxLen, lineArr.length);
         }
         width = maxLen;
-        height = Math.min(lines.length, 25); // HEIGHT_LETTERS
+        height = Math.min(lines.length, TEXT_ROWS_PER_PAGE);
         grid = new Letter[width][height];
 
         for (int y = 0; y < height; y++) {
