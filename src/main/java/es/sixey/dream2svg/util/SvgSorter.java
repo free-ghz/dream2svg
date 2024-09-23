@@ -21,6 +21,7 @@ public class SvgSorter {
         int ellipses = 0;
         String topGroup = null;
         String subGroupStyle = null;
+        int subGroupDepth = 0;
         boolean inSubGroup = false;
         for (var tag : tags) {
             if (tag.startsWith("g")) {
@@ -29,6 +30,7 @@ public class SvgSorter {
                     topGroup = tag;
                 } else {
                     inSubGroup = true;
+                    subGroupDepth += 1;
                     if (subGroupStyle == null) {
                         subGroupStyle = tag.substring(2, tag.length()-1);
                     }
@@ -41,13 +43,16 @@ public class SvgSorter {
                 ellipses += 1;
             } else if (tag.startsWith("/g")) {
                 if (inSubGroup) {
-                    inSubGroup = false;
+                    subGroupDepth -= 1;
+                    if (subGroupDepth == 0) {
+                        inSubGroup = false;
+                    }
                 } else {
                     var unsortedDistance = getPassivePrintDistance(current);
                     var sorted = sort(current);
                     var sortedDistance = getPassivePrintDistance(sorted);
                     var distanceDiff = unsortedDistance - sortedDistance;
-                    System.out.println("Sorting removed " + Math.round(distanceDiff) + " passine travel distance, shaved to " + Math.round((sortedDistance/unsortedDistance) * 100) + "% of original");
+                    System.out.println("Sorting removed " + Math.round(distanceDiff) + " passive travel distance, shaved to " + Math.round((sortedDistance/unsortedDistance) * 100) + "% of original");
 
                     var injectedTop = topGroup.substring(0, topGroup.length()-1);
                     if (subGroupStyle != null) injectedTop += " " + subGroupStyle;

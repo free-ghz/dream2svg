@@ -54,13 +54,13 @@ public class Drawing {
         drawText(text, externalXOffset, externalYOffset, flip, 1);
     }
     public void drawText(Text text, int externalXOffset, int externalYOffset, boolean flip, double sizeFactor) {
-        surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, getGroupIdWithInkscapeLayer(text.toString()));
+        // startGroup(text.toString());
         double signWidth = surfaceWidth/widthLetters;
         double signHeight = surfaceHeight/heightLetters;
         for (int x = 0; x < text.getWidth(); x++) {
             for (int y = 0; y < text.getHeight(); y++) {
                 double letterSizeFactor = sizeFactor;
-                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.7, 1.05);
+                letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.7, 0.95);
                 double sizeFactorOffset = (1 - letterSizeFactor) / 2;
                 double borderOffset = signWidth * (offsetLetters + sizeFactorOffset);
                 borderOffset += signWidth * offsetWave.getWave(x, y, -0.15, 0.15);
@@ -79,7 +79,7 @@ public class Drawing {
                 }
             }
         }
-        surface.setRenderingHint(SVGHints.KEY_END_GROUP, text.toString());
+        // endGroup(text.toString());
     }
 
     private void drawPath(Path path, double xOffset, double yOffset) {
@@ -106,5 +106,12 @@ public class Drawing {
                 PreserveAspectRatio.XMAX_YMAX,
                 MeetOrSlice.MEET
         );
+    }
+
+    public void startGroup(String name) {
+        surface.setRenderingHint(SVGHints.KEY_BEGIN_GROUP, getGroupIdWithInkscapeLayer(name));
+    }
+    public void endGroup(String name) {
+        surface.setRenderingHint(SVGHints.KEY_END_GROUP, name);
     }
 }
