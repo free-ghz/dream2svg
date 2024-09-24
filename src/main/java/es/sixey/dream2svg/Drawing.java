@@ -54,11 +54,16 @@ public class Drawing {
         drawText(text, externalXOffset, externalYOffset, flip, 1);
     }
     public void drawText(Text text, int externalXOffset, int externalYOffset, boolean flip, double sizeFactor) {
-        // startGroup(text.toString());
         double signWidth = surfaceWidth/widthLetters;
         double signHeight = surfaceHeight/heightLetters;
-        for (int x = 0; x < text.getWidth(); x++) {
-            for (int y = 0; y < text.getHeight(); y++) {
+        for (int a = 0; a < text.getWidth(); a++) {
+            for (int b = 0; b < text.getHeight(); b++) {
+                var x = a;
+                var y = b;
+                if (flip) {
+                    x = text.getWidth() - x - 1;
+                    y = text.getHeight() - y - 1;
+                }
                 double letterSizeFactor = sizeFactor;
                 letterSizeFactor = sizeFactor * sizeWave.getWave(x, y, 0.7, 0.95);
                 double sizeFactorOffset = (1 - letterSizeFactor) / 2;
@@ -68,8 +73,8 @@ public class Drawing {
                 if (letter == null) continue;
                 var paths = letter.getPaths(signWidth * letterSizeFactor, signHeight * letterSizeFactor);
                 for (var path : paths) {
-                    double finalXOffset = externalXOffset + borderOffset + (x * signWidth);
-                    double finalYOffset = externalYOffset + borderOffset + (y * signHeight);
+                    double finalXOffset = externalXOffset + borderOffset + (a * signWidth);
+                    double finalYOffset = externalYOffset + borderOffset + (b * signHeight);
                     if (flip) {
                         path = path.size(1, 1, -1, -1);
                         finalXOffset += signWidth;
@@ -79,7 +84,6 @@ public class Drawing {
                 }
             }
         }
-        // endGroup(text.toString());
     }
 
     private void drawPath(Path path, double xOffset, double yOffset) {
