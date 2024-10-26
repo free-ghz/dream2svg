@@ -12,7 +12,7 @@ public class CurtainFactory {
             case STARS -> new StarCurtain(width);
             case AUTOMATA -> new AutomataCurtain(width, pageWidth);
             case UNDEFINED -> new UndefinedCurtain(width);
-            default -> new AutomataCurtain(width, pageWidth);
+            default -> new ZigzagCurtain(width);
         };
     }
 }

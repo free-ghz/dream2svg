@@ -54,7 +54,7 @@ public class Main {
             var yOffset = dimension.y * PAGE_HEIGHT_MM;
             var flip = dimension.flip;
 
-            var letters = new Text(dreamCursor, new CosmogrammaAlphabet(), "" + i + "-1 letters " + location);
+            var letters = new Text(dreamCursor, new JsonAlphabet("CosmogrammaAlphabet.json"), "" + i + "-1 letters " + location);
             drawing.drawText(letters, xOffset, yOffset, flip, 0.8);
 
             try {
@@ -103,7 +103,7 @@ public class Main {
         Files.writeString(outputPath, output);
     }
 
-    private static String loadFile(String location) throws IOException {
+    public static String loadFile(String location) throws IOException {
         var path = Path.of(location);
         var file = Files.readString(path);
         return file.toLowerCase();
